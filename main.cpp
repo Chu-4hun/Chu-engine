@@ -1,24 +1,37 @@
-#include "raylib.h"
+#include <GLFW/glfw3.h>
 
 int main(void)
 {
-    const int screenWidth = 800;
-    const int screenHeight = 450;
+    GLFWwindow* window;
 
-    InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
+    /* Initialize the library */
+    if (!glfwInit())
+        return -1;
 
-    SetTargetFPS(60);
-    // Main game loop
-    while (!WindowShouldClose())    // Detect window close button or ESC key
+    /* Create a windowed mode window and its OpenGL context */
+    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+    if (!window)
     {
-        BeginDrawing();
-
-        ClearBackground(RAYWHITE);
-
-        DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
-
-        EndDrawing();
+        glfwTerminate();
+        return -1;
     }
-    CloseWindow();        // Close window and OpenGL context
+
+    /* Make the window's context current */
+    glfwMakeContextCurrent(window);
+
+    /* Loop until the user closes the window */
+    while (!glfwWindowShouldClose(window))
+    {
+        /* Render here */
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        /* Swap front and back buffers */
+        glfwSwapBuffers(window);
+
+        /* Poll for and process events */
+        glfwPollEvents();
+    }
+
+    glfwTerminate();
     return 0;
 }
