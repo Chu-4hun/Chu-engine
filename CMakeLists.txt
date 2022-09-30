@@ -15,25 +15,24 @@ if (NOT glfw_FOUND)
             GIT_TAG 3.3.8
     )
     FetchContent_MakeAvailable(glfw)
-endif()
-
-#BYPRODUCTS containing a "#" is not allowed.(┬┬﹏┬┬)
-
-#find_package(glad QUIET)
-#if (NOT glad_FOUND)
-#    include(FetchContent)
-#    FetchContent_Declare(
-#            glad
-#            URL "https://glad.dav1d.de/#language=c&specification=gl&api=gl%3D4.6&api=gles1%3Dnone&api=gles2%3Dnone&api=glsc2%3Dnone&profile=compatibility&loader=on"
-#            DOWNLOAD_NO_EXTRACT TRUE
-#
-#    )
-#    FetchContent_MakeAvailable(glad)
-#endif()
+endif ()
 
 
-include_directories(${CMAKE_BINARY_DIR}/_deps/glfw-src/include/ ${CMAKE_SOURCE_DIR}/lib/glad/include)
-set(SOURCES main.cpp lib/glad/src/glad.c)
+find_package(glad QUIET)
+if (NOT glad_FOUND)
+    set(URL_TO_GLAD "")
+    file(READ ${CMAKE_CURRENT_LIST_DIR}/gladurl.txt URL_TO_GLAD)
+    message("${URL_TO_GLAD}")
+    include(FetchContent)
+    FetchContent_Declare(
+            glad
+            URL ${URL_TO_GLAD}
+    )
+    FetchContent_MakeAvailable(glad)
+endif ()
+
+include_directories(${CMAKE_BINARY_DIR}/_deps/glfw-src/include/ ${CMAKE_BINARY_DIR}/_deps/glad-src/include/)
+set(SOURCES main.cpp ${CMAKE_BINARY_DIR}/_deps/glad-src/src/glad.c)
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_link_libraries(ChuEngine OpenGL::GL glfw)
 

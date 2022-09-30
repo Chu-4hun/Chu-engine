@@ -12,6 +12,5 @@ data=$(
 )
 
 read -r redirect_url < <(tail -n1 <<<"$data")
-echo $redirect_url"./glad.zip"
-curl -o "$PWD/ff.zip" "$redirect_url./glad.zip"
-read ff
+echo $redirect_url"./glad.zip" > gladurl.txt
+curl -o "$PWD/lib/ff.zip" "$redirect_url./glad.zip"
