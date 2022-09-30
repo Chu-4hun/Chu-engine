@@ -30,6 +30,8 @@ endif()
 #    )
 #    FetchContent_MakeAvailable(glad)
 #endif()
+
+
 include_directories(${CMAKE_BINARY_DIR}/_deps/glfw-src/include/ ${CMAKE_SOURCE_DIR}/lib/glad/include)
 set(SOURCES main.cpp lib/glad/src/glad.c)
 add_executable(${PROJECT_NAME} ${SOURCES})
