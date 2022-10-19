@@ -17,24 +17,26 @@ if (NOT glfw_FOUND)
     FetchContent_MakeAvailable(glfw)
 endif ()
 
+#Thanks gods https://github.com/Perlmint/glew-cmake exist 😭
 
-find_package(glad QUIET)
-if (NOT glad_FOUND)
-    set(URL_TO_GLAD "")
-    file(READ ${CMAKE_CURRENT_LIST_DIR}/gladurl.txt URL_TO_GLAD)
-    message("${URL_TO_GLAD}")
+find_package(GLEW QUIET)
+if (NOT GLEW_FOUND)
     include(FetchContent)
     FetchContent_Declare(
-            glad
-            URL ${URL_TO_GLAD}
+            GLEW
+            GIT_REPOSITORY https://github.com/Perlmint/glew-cmake
+            GIT_TAG glew-cmake-2.2.0
     )
-    FetchContent_MakeAvailable(glad)
+    FetchContent_MakeAvailable(GLEW)
 endif ()
 
-include_directories(${CMAKE_BINARY_DIR}/_deps/glfw-src/include/ ${CMAKE_BINARY_DIR}/_deps/glad-src/include/)
-set(SOURCES main.cpp ${CMAKE_BINARY_DIR}/_deps/glad-src/src/glad.c)
+set(GLEW_USE_STATIC_LIBS TRUE)
+set(ONLY_LIBS ON)
+
+include_directories(${CMAKE_BINARY_DIR}/_deps/glfw-src/include/ ${CMAKE_BINARY_DIR}/_deps/glew-src/include/)
+set(SOURCES main.cpp  ${CMAKE_BINARY_DIR}/_deps/glew-src/src/)
 add_executable(${PROJECT_NAME} ${SOURCES})
-target_link_libraries(ChuEngine OpenGL::GL glfw)
+target_link_libraries(ChuEngine OpenGL::GL glfw libglew_static)
 
 
 
