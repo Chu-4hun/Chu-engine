@@ -4,6 +4,8 @@ project(ChuEngine)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_EXE_LINKER_FLAGS "-static")
 
+#openGL docs https://docs.gl/
+#openGL learning book https://learnopengl.com/ RU https://habr.com/ru/post/310790/
 find_package(OpenGL REQUIRED)
 
 find_package(glfw QUIET)
@@ -18,7 +20,7 @@ if (NOT glfw_FOUND)
 endif ()
 
 #Thanks gods https://github.com/Perlmint/glew-cmake exist 😭
-
+#GLEW docs https://glew.sourceforge.net/
 find_package(GLEW QUIET)
 if (NOT GLEW_FOUND)
     include(FetchContent)
@@ -37,6 +39,3 @@ include_directories(${CMAKE_BINARY_DIR}/_deps/glfw-src/include/ ${CMAKE_BINARY_D
 set(SOURCES main.cpp  ${CMAKE_BINARY_DIR}/_deps/glew-src/src/)
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_link_libraries(ChuEngine OpenGL::GL glfw libglew_static)
-
-
-
