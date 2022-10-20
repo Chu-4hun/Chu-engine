@@ -19,7 +19,7 @@ if (NOT glfw_FOUND)
     FetchContent_MakeAvailable(glfw)
 endif ()
 
-#Thanks gods https://github.com/Perlmint/glew-cmake exist 😭
+#Thank gods https://github.com/Perlmint/glew-cmake exist 😭
 #GLEW docs https://glew.sourceforge.net/
 find_package(GLEW QUIET)
 if (NOT GLEW_FOUND)

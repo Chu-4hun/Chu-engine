@@ -14,7 +14,7 @@ static uint32_t CompileShader(uint32_t type, const std::string &source) {
     if (result == GL_FALSE) {
         int length;
         glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
-        char* message = (char*)alloca(length * sizeof(char));
+        char *message = (char *) alloca(length * sizeof(char));
         glGetShaderInfoLog(id, length, &length, message);
         fprintf(stderr, "Error: %s\n--------\nwith %s shader\n ", message,
                 type == GL_VERTEX_SHADER ? "vertex" : "fragment");
@@ -24,7 +24,7 @@ static uint32_t CompileShader(uint32_t type, const std::string &source) {
     return id;
 }
 
-static uint32_t CreateShader(const std::string& vertexShader, const std::string& fragmentShader) {
+static uint32_t CreateShader(const std::string &vertexShader, const std::string &fragmentShader) {
     uint32_t program = glCreateProgram();
     uint32_t vs = CompileShader(GL_VERTEX_SHADER, vertexShader);
     uint32_t fs = CompileShader(GL_FRAGMENT_SHADER, fragmentShader);
@@ -67,13 +67,18 @@ int main(void) {
             -0.0f, -0.5f,
             0.5f, -0.5f
     };
+
+    GLuint vao;
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
+
     uint32_t buffer;
     glGenBuffers(1, &buffer);
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertexCoords), vertexCoords, GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, 0);
 
     std::string vertexShader =
             "#version 410 core\n"
@@ -93,7 +98,7 @@ int main(void) {
             "{\n"
             "   color = vec4(0.0, 1.0, 0.0 , 1.0); \n"
             "}\n";
-    uint32_t shader = CreateShader(vertexShader,fragmentShader);
+    uint32_t shader = CreateShader(vertexShader, fragmentShader);
     glUseProgram(shader);
 
     /* Loop until the user closes the window */
