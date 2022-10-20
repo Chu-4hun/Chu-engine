@@ -63,12 +63,14 @@ int main(void) {
         std::cout << glewGetErrorString(err) << std::endl;
 
     float vertexCoords[] = {
-            -0.5f, -0.5f,
-            -0.0f, -0.5f,
-            0.5f, -0.5f
+
+    -0.5f, -0.5f, 0.0f,
+     0.5f, -0.5f, 0.0f,
+     0.0f,  0.5f, 0.0f
+
     };
 
-    GLuint vao;
+    uint32_t vao;
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
@@ -81,7 +83,7 @@ int main(void) {
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, 0);
 
     std::string vertexShader =
-            "#version 410 core\n"
+            "#version 330 core\n"
             "\n"
             "layout(location = 0) in vec4 position;"
             "\n"
@@ -90,7 +92,7 @@ int main(void) {
             "   gl_Position = position;\n"
             "}\n";
     std::string fragmentShader =
-            "#version 410 core\n"
+            "#version 330 core\n"
             "\n"
             "layout(location = 0) out vec4 color;"
             "\n"
